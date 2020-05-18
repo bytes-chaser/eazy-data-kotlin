@@ -31,7 +31,7 @@ class DefaultTableAddColumnTest: AbstractTableAddColumnTest() {
         val col1 = tableFactory.createColumn(table, "col1")
         val col2 = tableFactory.createColumn(table, "col2")
 
-        table.addColumns(mutableListOf<Column>(col1, col2))
+        table.addColumns(mutableListOf(col1, col2))
 
         assertEquals(2, table.getColumnSize())
         assertNotNull(table.getColumn("col1"))

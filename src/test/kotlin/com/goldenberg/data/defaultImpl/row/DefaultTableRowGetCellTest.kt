@@ -19,12 +19,12 @@ import kotlin.test.assertTrue
 class DefaultTableRowGetCellTest: AbstractTableRowGetCellTest() {
 
     lateinit var col1: Column
-    lateinit var col2: Column
+    private lateinit var col2: Column
 
-    lateinit var cell1: Cell
-    lateinit var cell2: Cell
+    private lateinit var cell1: Cell
+    private lateinit var cell2: Cell
 
-    lateinit var writableTable: WritableTable
+    private lateinit var writableTable: WritableTable
 
     @BeforeEach
     override fun setup() {
