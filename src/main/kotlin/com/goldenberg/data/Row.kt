@@ -13,7 +13,7 @@ interface Row : Collection<Cell> {
 
     fun getIndex(): Int
 
-    fun getMap(): MutableMap<String, Cell>
+    fun getMap(): Map<String, Cell>
 
     fun getTable(): Table
 

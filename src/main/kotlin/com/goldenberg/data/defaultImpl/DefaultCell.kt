@@ -48,7 +48,7 @@ class DefaultCell internal constructor(
 
     override fun hashCode(): Int {
         var result = table.getId().hashCode()
-        result = 31 * result + row
+        result = 31 * result + row.hashCode()
         result = 31 * result + column.hashCode()
         result = 31 * result + (value?.hashCode() ?: 0)
         return result

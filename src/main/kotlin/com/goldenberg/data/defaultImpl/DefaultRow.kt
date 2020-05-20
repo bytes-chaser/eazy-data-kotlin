@@ -56,7 +56,7 @@ class DefaultRow internal constructor(private var table: Table, var id: Int) : R
         return id
     }
 
-    override fun getMap(): MutableMap<String, Cell>
+    override fun getMap(): Map<String, Cell>
     {
         return map
     }
