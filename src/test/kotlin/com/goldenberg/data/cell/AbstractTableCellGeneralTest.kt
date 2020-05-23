@@ -1,6 +1,5 @@
 package com.goldenberg.data.cell
 
-import org.junit.jupiter.api.Test
 
 abstract class AbstractTableCellGeneralTest: AbstractCellTest() {
 
@@ -13,6 +12,19 @@ abstract class AbstractTableCellGeneralTest: AbstractCellTest() {
     abstract fun `Compare Different Value Cell`()
 
     abstract fun `Check Default Value false`()
-    @Test
+
     abstract fun `Check Default Value true`()
+
+    abstract fun `Compare Cell HashCode All Same`()
+
+    abstract fun `Compare Cell HashCode Different Table`()
+
+    abstract fun `Compare Cell HashCode Different Row`()
+
+    abstract fun `Compare Cell HashCode Different Column`()
+
+    abstract fun `Compare Cell HashCode Different Value`()
+
+    abstract fun `Compare Cell HashCode All Different`()
+
 }

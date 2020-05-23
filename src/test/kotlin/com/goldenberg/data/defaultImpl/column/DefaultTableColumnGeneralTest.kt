@@ -4,13 +4,12 @@ import com.goldenberg.data.Table
 import com.goldenberg.data.TableFactory
 import com.goldenberg.data.WritableTable
 import com.goldenberg.data.column.AbstractTableColumnGeneralTest
+import com.goldenberg.data.defaultImpl.DefaultColumn
 import com.goldenberg.data.defaultImpl.DefaultTableFactory
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
-import kotlin.test.assertEquals
-import kotlin.test.assertNull
-import kotlin.test.assertTrue
+import kotlin.test.*
 
 class DefaultTableColumnGeneralTest: AbstractTableColumnGeneralTest() {
 
@@ -91,6 +90,98 @@ class DefaultTableColumnGeneralTest: AbstractTableColumnGeneralTest() {
     @Test
     override fun `Get Column Table `() {
         assertEquals(table, col.getTable())
+    }
+
+    @Test
+    override fun `Print toString() Test`() {
+        assertEquals("col1 ( comparable, default: def )", this.col.toString())
+
+    }
+
+    @Test
+    override fun `Print toString() Test Non-Comparable`() {
+        val defaultColumn = this.col as DefaultColumn
+        defaultColumn.setIsComparable(false)
+        assertEquals("col1 ( non-comparable, default: def )", defaultColumn.toString())
+    }
+
+    @Test
+    override fun `Print toString() Test Null Default`() {
+        val defaultColumn = this.col as DefaultColumn
+        defaultColumn.setDefaultValue(null)
+        assertEquals("col1 ( comparable, default: null )", defaultColumn.toString())
+    }
+
+    @Test
+    override fun `Compare Column HashCode All Same`() {
+        val col = tableFactory.createColumn(tableFactory.createTable("name"),"col1", true, "def")
+        assertEquals(this.col.hashCode(), col.hashCode())
+    }
+
+    @Test
+    override fun `Compare Column HashCode Different Table`() {
+        val col = tableFactory.createColumn(tableFactory.createTable("name1"),"col1", true, "def")
+        assertNotEquals(this.col.hashCode(), col.hashCode())
+    }
+
+    @Test
+    override fun `Compare Column HashCode Different Name`() {
+        val col = tableFactory.createColumn(tableFactory.createTable("name"),"col2", true, "def")
+        assertNotEquals(this.col.hashCode(), col.hashCode())
+    }
+
+    @Test
+    override fun `Compare Column HashCode Different Comparable`() {
+        val col = tableFactory.createColumn(tableFactory.createTable("name"),"col1", false, "def")
+        assertNotEquals(this.col.hashCode(), col.hashCode())    }
+
+    @Test
+    override fun `Compare Column HashCode Different Default Value`() {
+        val col = tableFactory.createColumn(tableFactory.createTable("name"),"col1", true, "def2")
+        assertNotEquals(this.col.hashCode(), col.hashCode())
+    }
+
+    @Test
+    override fun `Compare Column HashCode All Different`() {
+        val col = tableFactory.createColumn(tableFactory.createTable("name1"),"col2", false, "def2")
+        assertNotEquals(this.col.hashCode(), col.hashCode())
+    }
+
+    @Test
+    fun `Set Table Test`() {
+        val defaultColumn = this.col as DefaultColumn
+        assertEquals("name", this.col.getTable().getId())
+
+        defaultColumn.setTable(tableFactory.createTable("name2"))
+        assertEquals("name2", this.col.getTable().getId())
+    }
+
+    @Test
+    fun `Set Name Test`() {
+        val defaultColumn = this.col as DefaultColumn
+        assertEquals("col1", this.col.getName())
+
+        defaultColumn.setName("col2")
+        assertEquals("col2", this.col.getName())
+    }
+
+    @Test
+    fun `Set IsComparable Test`() {
+        val defaultColumn = this.col as DefaultColumn
+        assertTrue { this.col.isComparable() }
+
+        defaultColumn.setIsComparable(false)
+        assertFalse { this.col.isComparable() }
+
+    }
+
+    @Test
+    fun `Set Default Value Test`() {
+        val defaultColumn = this.col as DefaultColumn
+        assertEquals("def", this.col.getDefaultValue())
+
+        defaultColumn.setDefaultValue("def2")
+        assertEquals("def2", this.col.getDefaultValue())
     }
 
     override fun setTableFactory(): TableFactory {

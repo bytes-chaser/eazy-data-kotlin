@@ -32,7 +32,7 @@ class DefaultColumn internal constructor(
     }
 
     override fun toString(): String {
-        return StringBuilder(name).append(" ( ").append(if (isComparable) "comparable" else "nonComparable")
+        return StringBuilder(name).append(" ( ").append(if (isComparable) "comparable" else "non-comparable")
             .append(", ").append("default: ").append(defaultValue).append(" )").toString()
     }
 

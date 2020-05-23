@@ -22,5 +22,21 @@ abstract class AbstractTableColumnGeneralTest: AbstractColumnTest() {
 
     abstract fun `Get Column Table `()
 
+    abstract fun `Print toString() Test`()
 
+    abstract fun `Print toString() Test Non-Comparable`()
+
+    abstract fun `Print toString() Test Null Default`()
+
+    abstract fun `Compare Column HashCode All Same`()
+
+    abstract fun `Compare Column HashCode Different Table`()
+
+    abstract fun `Compare Column HashCode Different Name`()
+
+    abstract fun `Compare Column HashCode Different Comparable`()
+
+    abstract fun `Compare Column HashCode Different Default Value`()
+
+    abstract fun `Compare Column HashCode All Different`()
 }

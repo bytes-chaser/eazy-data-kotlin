@@ -103,15 +103,13 @@ class DefaultTable internal constructor(private var id: String) : WritableTable 
         return row
     }
 
-    override fun iterator(): MutableIterator<Row>
-    {
-        return rows.values.iterator()
-    }
-
     override fun toString(): String {
 
-        return columns.values.stream().map { it.toString() }.collect(Collectors.joining("\n"))
-            .plus(rows.values.stream().map { it.toString() }.collect(Collectors.joining("\n")))
+        var header = columns.values.stream().map { it.toString() }.collect(Collectors.joining(", ")).plus("\n")
+        val length = header.length
+        for (i in 0 until length) header = header.plus("=")
+        header = header.plus("\n")
+        return header.plus(rows.values.stream().map { it.toString() }.collect(Collectors.joining("\n")))
     }
 
     override fun equals(other: Any?): Boolean
@@ -134,6 +132,11 @@ class DefaultTable internal constructor(private var id: String) : WritableTable 
         result = 31 * result + columns.hashCode()
         result = 31 * result + rows.hashCode()
         return result
+    }
+
+    override fun iterator(): MutableIterator<Row>
+    {
+        return rows.values.iterator()
     }
 
     internal fun setId(id: String)
