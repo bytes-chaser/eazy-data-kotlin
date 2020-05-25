@@ -1,6 +1,6 @@
 package com.goldenberg.data.tables
 
-interface Cell: Comparable<Cell> {
+interface Cell {
 
     fun getColumn(): Column
 
@@ -23,13 +23,5 @@ interface Cell: Comparable<Cell> {
 
     fun isDefault(): Boolean {
         return getColumn().getDefaultValue() == getValue()
-    }
-
-    override fun compareTo(other: Cell): Int {
-        val otherValue = other.getValue()
-        val value = getValue()
-        if (value is Comparable<*> && otherValue is Comparable<*>)
-            return compareValues(value, otherValue)
-        return -1
     }
 }

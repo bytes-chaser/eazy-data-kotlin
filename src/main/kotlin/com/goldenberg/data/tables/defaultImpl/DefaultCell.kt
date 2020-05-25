@@ -5,7 +5,7 @@ import com.goldenberg.data.tables.Column
 import com.goldenberg.data.tables.Row
 import com.goldenberg.data.tables.Table
 
-class DefaultCell internal constructor(
+open class DefaultCell internal constructor(
         private var table: Table,
         private var row: Int,
         private var column: String,
