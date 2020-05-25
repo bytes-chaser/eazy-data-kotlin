@@ -11,6 +11,8 @@ abstract class AbstractTableCellGeneralTest: AbstractCellTest() {
 
     abstract fun `Compare Different Value Cell`()
 
+    abstract fun `Compare With No Comparable`()
+
     abstract fun `Check Default Value false`()
 
     abstract fun `Check Default Value true`()

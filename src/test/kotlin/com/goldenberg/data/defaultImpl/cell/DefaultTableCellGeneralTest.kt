@@ -117,7 +117,16 @@ class DefaultTableCellGeneralTest: AbstractTableCellGeneralTest() {
         val row = DefaultRow(table, 0)
         table.addColumn(column)
         table.addRow(row)
-        assertNotEquals(0, cell.compareTo(tableFactory.createCell(table, row, column, "val2")))
+        assertEquals(-1, cell.compareTo(tableFactory.createCell(table, row, column, Any())))
+    }
+
+    override fun `Compare With No Comparable`() {
+        val table = DefaultTable("tbl")
+        val column = DefaultColumn(table, "col")
+        val row = DefaultRow(table, 0)
+        table.addColumn(column)
+        table.addRow(row)
+        assertEquals(0, cell.compareTo(tableFactory.createCell(table, row, column, "val1")))
     }
 
     override fun setTableFactory(): TableFactory {
