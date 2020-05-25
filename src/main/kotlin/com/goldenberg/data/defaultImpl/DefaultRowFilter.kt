@@ -2,6 +2,7 @@ package com.goldenberg.data.defaultImpl
 
 import com.goldenberg.data.Row
 import com.goldenberg.data.RowFilter
+import java.util.stream.Collectors
 
 class DefaultRowFilter: RowFilter {
 
@@ -20,7 +21,13 @@ class DefaultRowFilter: RowFilter {
     }
 
     override fun removeRowPredicate(row: Row): Boolean {
-        return removeRowPredicate { it == row }
+        var isAnyPredicateRemoved = false
+        val predicates = this.rowFilters.stream().filter { it.invoke(row) }.collect(Collectors.toList())
+        if (predicates.isNotEmpty()) {
+            predicates.forEach { rowFilters.remove(it) }
+            isAnyPredicateRemoved = true
+        }
+        return isAnyPredicateRemoved
     }
 
     override fun isRowPredicatesExists(): Boolean {

@@ -3,6 +3,7 @@ package com.goldenberg.data.defaultImpl
 import com.goldenberg.data.Cell
 import com.goldenberg.data.CellFilter
 import com.goldenberg.data.Row
+import java.util.stream.Collectors
 
 class DefaultCellFilter: CellFilter {
 
@@ -30,7 +31,13 @@ class DefaultCellFilter: CellFilter {
     }
 
     override fun removeCellPredicate(cell: Cell): Boolean {
-        return removeCellPredicate{ it == cell }
+        var isAnyPredicateRemoved = false
+        val predicates = this.cellFilters.stream().filter { it.invoke(cell) }.collect(Collectors.toList())
+        if (predicates.isNotEmpty()) {
+            predicates.forEach { cellFilters.remove(it) }
+            isAnyPredicateRemoved = true
+        }
+        return isAnyPredicateRemoved
     }
 
     override fun isCellPredicateExists(): Boolean {

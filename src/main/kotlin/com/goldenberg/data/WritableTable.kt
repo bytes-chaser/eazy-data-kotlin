@@ -39,7 +39,7 @@ interface WritableTable: Table {
 
     fun removeRows(startIndex: Int = 0, endIndex: Int = getRowSize() - 1): List<Row>
     {
-        DataInternalUtils.checkIndexesParams(startIndex, endIndex, getRowSize())
+        checkIndexesParams(startIndex, endIndex, getRowSize())
         return (startIndex..endIndex).mapNotNull { removeRow(it) }.toList()
 
     }

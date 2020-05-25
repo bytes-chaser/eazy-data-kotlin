@@ -63,21 +63,42 @@ abstract class AbstractTableFactoryTest{
     }
 
     @Test
-    fun `Create Row By Row Override Row` () {
+    fun `Create Row By Row Override Row`() {
         val table = factory.createTable(defaultTableId)
         val row = factory.createRow(table, defaultRowId)
-        assertEquals(setRow(defaultRowId, table), factory.createRow(table, row, isOverride = true ))
+        assertEquals(setRow(defaultRowId, table), factory.createRow(table, row, isOverride = true))
     }
 
     @Test
-    fun `Create Row By Row Override Index & Allow Override` () {
+    fun `Create Row By Row Override Row With New Columns`() {
+        val table = factory.createTable(defaultTableId)
+        val col = factory.createColumn(table, defaultColumnName)
+        val col1 = factory.createColumn(table, defaultColumnName + "1")
+        val row = factory.createRow(table, defaultRowId)
+        factory.createCell(table, row, col, "val")
+        factory.createCell(table, row, col1, "val1")
+
+        val table1 = factory.createTable(defaultTableId)
+        factory.createColumn(table1, defaultColumnName)
+        factory.createRow(table1, defaultRowId)
+
+        val table2 = factory.createTable(defaultTableId)
+        val col2 = factory.createColumn(table2, defaultColumnName)
+        val row2 = factory.createRow(table2, defaultRowId)
+        factory.createCell(table2, row2, col2, "val")
+
+        assertEquals(row2, factory.createRow(table1, row, isOverride = true))
+    }
+
+    @Test
+    fun `Create Row By Row Override Index & Allow Override`() {
         val table = factory.createTable(defaultTableId)
         val row = factory.createRow(table, 0)
         assertEquals(setRow(defaultRowId, table), factory.createRow(table, row, defaultRowId, true))
     }
 
     @Test
-    fun `Create Column` () {
+    fun `Create Column`() {
         val table = factory.createTable(defaultTableId)
         assertEquals(setCol(this.defaultColumnName, table), factory.createColumn(table, this.defaultColumnName))
     }
@@ -125,9 +146,26 @@ abstract class AbstractTableFactoryTest{
         assertEquals(cell1, cell)
     }
 
-    abstract fun setTbl(id:String): WritableTable
+    @Test
+    fun `Create Cell With Override`() {
+        val table = factory.createTable(defaultTableId)
+        val row = factory.createRow(table, defaultRowId)
+        val col = factory.createColumn(table, defaultColumnName)
+        val cell = factory.createCell(table, row, col, defaultCellValue)
 
-    abstract fun setCol(name:String, table: WritableTable, isComparable: Boolean = true, defaultValue: Any? = null): Column
+        val table1 = factory.createTable(defaultTableId)
+
+        assertEquals(cell, factory.createCell(table1, cell))
+    }
+
+    abstract fun setTbl(id: String): WritableTable
+
+    abstract fun setCol(
+        name: String,
+        table: WritableTable,
+        isComparable: Boolean = true,
+        defaultValue: Any? = null
+    ): Column
 
     abstract fun setRow(id: Int, table: WritableTable): Row
 

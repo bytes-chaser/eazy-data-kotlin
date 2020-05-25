@@ -7,7 +7,7 @@ interface Table: Collection<Row> {
 
     fun getCells(column: Column, startIndex: Int = 0, endIndex: Int = getRowSize() - 1): List<Cell>
     {
-        DataInternalUtils.checkIndexesParams(startIndex, endIndex, getRowSize())
+        checkIndexesParams(startIndex, endIndex, getRowSize())
 
         return if (isColumnExists(column.getName())) (startIndex..endIndex)
             .map { getRow(it) }
@@ -54,7 +54,7 @@ interface Table: Collection<Row> {
 
     fun getRows(startIndex: Int = 0, endIndex: Int = getRowSize() - 1): Collection<Row>
     {
-        DataInternalUtils.checkIndexesParams(startIndex, endIndex, getRowSize())
+        checkIndexesParams(startIndex, endIndex, getRowSize())
         return (startIndex..endIndex).map { this.getRow(it) }.toList()
     }
 
