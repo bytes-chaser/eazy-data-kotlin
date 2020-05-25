@@ -30,7 +30,33 @@ class DefaultTableCellGeneralTest: AbstractTableCellGeneralTest() {
 
     @Test
     override fun `Get Cell Column`() {
-       assertEquals("col1", cell.getColumn().getName())
+        assertEquals("col1", cell.getColumn().getName())
+    }
+
+    @Test
+    override fun `Is Has Value Test Number`() {
+        val defaultCell = cell as DefaultCell
+        defaultCell.setValue(5)
+        assertTrue { cell.hasValue() }
+    }
+
+    @Test
+    override fun `Is Has Value Test With Null`() {
+        val defaultCell = cell as DefaultCell
+        defaultCell.setValue(null)
+        assertFalse { cell.hasValue() }
+    }
+
+    @Test
+    override fun `Is Has Value Test With String`() {
+        assertTrue { cell.hasValue() }
+    }
+
+    @Test
+    override fun `Is Has Value Test With Any`() {
+        val defaultCell = cell as DefaultCell
+        defaultCell.setValue(Any())
+        assertTrue { cell.hasValue() }
     }
 
     @Test

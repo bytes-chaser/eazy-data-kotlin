@@ -7,6 +7,14 @@ abstract class AbstractTableCellGeneralTest: AbstractCellTest() {
 
     abstract fun `Get Cell Column`()
 
+    abstract fun `Is Has Value Test Number`()
+
+    abstract fun `Is Has Value Test With Null`()
+
+    abstract fun `Is Has Value Test With String`()
+
+    abstract fun `Is Has Value Test With Any`()
+
     abstract fun `Compare Same Value Cell`()
 
     abstract fun `Compare Different Value Cell`()
