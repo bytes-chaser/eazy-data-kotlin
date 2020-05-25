@@ -5,27 +5,41 @@ import java.util.stream.Stream
 
 interface Table: Collection<Row> {
 
-    fun getCells(column: Column, startIndex: Int = 0, endIndex: Int = getRowSize() - 1): List<Cell>
-    {
+    fun getCell(column: Column, row: Int): Cell? {
+        return if (isColumnExists(column)) getRow(row).getCell(column) else null
+    }
+
+    fun getCell(column: String, row: Int): Cell? {
+        return if (isColumnExists(column)) getRow(row).getCell(column) else null
+    }
+
+    fun getCells(column: Column, startIndex: Int = 0, endIndex: Int = getRowSize() - 1): List<Cell> {
         checkIndexesParams(startIndex, endIndex, getRowSize())
 
-        return if (isColumnExists(column.getName())) (startIndex..endIndex)
-            .map { getRow(it) }
-            .mapNotNull { it.getCell(column) }
-            .toList()
+        return if (isColumnExists(column.getName()))
+            (startIndex..endIndex)
+                    .map { getRow(it) }
+                    .mapNotNull { it.getCell(column) }
+                    .toList()
         else
             listOf()
     }
 
-    fun getCells(column: String, startIndex: Int = 0, endIndex: Int = getRowSize() - 1): List<Cell>
-    {
+    fun getCells(column: String, startIndex: Int = 0, endIndex: Int = getRowSize() - 1): List<Cell> {
         return getColumn(column)?.let { getCells(it, startIndex, endIndex) } ?: listOf()
     }
 
-    fun getCells(filter: CellFilter): List<Cell>
-    {
+    fun getCells(filter: CellFilter): List<Cell> {
         return filter(filter.getCellPredicatesCollection(), getRows(filter).stream().flatMap { it.stream() })
-            .collect(Collectors.toList())
+                .collect(Collectors.toList())
+    }
+
+    fun getCellsValues(column: Column, startIndex: Int = 0, endIndex: Int = getRowSize() - 1): List<Any?> {
+        return getCells(column, startIndex, endIndex).stream().map { it.getValue() }.collect(Collectors.toList())
+    }
+
+    fun getCellsValues(column: String, startIndex: Int = 0, endIndex: Int = getRowSize() - 1): List<Any?> {
+        return getCells(column, startIndex, endIndex).stream().map { it.getValue() }.collect(Collectors.toList())
     }
 
     fun getColumn(column: String): Column?
@@ -33,16 +47,6 @@ interface Table: Collection<Row> {
     fun getColumns(): Collection<Column>
 
     fun getColumnSize(): Int
-
-    fun getCellsValues(column: Column, startIndex: Int = 0, endIndex: Int = getRowSize() - 1): List<Any?>
-    {
-        return getCells(column, startIndex, endIndex).stream().map { it.getValue() }.collect(Collectors.toList())
-    }
-
-    fun getCellsValues(column: String, startIndex: Int = 0, endIndex: Int = getRowSize() - 1): List<Any?>
-    {
-        return getColumn(column)?.let { getCellsValues(it, startIndex, endIndex) } ?: listOf()
-    }
 
     fun getId(): String
 

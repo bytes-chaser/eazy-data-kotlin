@@ -8,6 +8,8 @@ interface Cell: Comparable<Cell> {
 
     fun getValue(): Any?
 
+    fun getTable(): Table
+
     fun hasValue(): Boolean {
         var isHasValue = false
         getValue()?.let {
@@ -22,8 +24,6 @@ interface Cell: Comparable<Cell> {
     fun isDefault(): Boolean {
         return getColumn().getDefaultValue() == getValue()
     }
-
-    fun getTable(): Table
 
     override fun compareTo(other: Cell): Int {
         val otherValue = other.getValue()

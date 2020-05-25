@@ -1,6 +1,5 @@
 package com.goldenberg.data.tables.defaultImpl
 
-import com.goldenberg.data.tables.Cell
 import com.goldenberg.data.tables.Column
 import com.goldenberg.data.tables.Table
 
@@ -17,10 +16,6 @@ class DefaultColumn internal constructor(
 
     override fun getName(): String {
         return name
-    }
-
-    override fun getRowsCells(startIndex: Int, endIndex: Int): List<Cell>? {
-        return this.table.getCells(this, startIndex, endIndex)
     }
 
     override fun getTable(): Table {
@@ -72,6 +67,5 @@ class DefaultColumn internal constructor(
     internal fun setTable(table: Table) {
         this.table = table
     }
-
 
 }

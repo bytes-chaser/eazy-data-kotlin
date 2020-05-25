@@ -6,9 +6,16 @@ interface Row : Collection<Cell> {
 
     fun getCell(column: Column): Cell?
 
-    fun getCell(column: String): Cell?
-    {
+    fun getCell(column: String): Cell? {
         return getTableColumn(column)?.let { getCell(it) }
+    }
+
+    fun getCellValue(column: Column): Any? {
+        return getCell(column)?.getValue()
+    }
+
+    fun getCellValue(column: String): Any? {
+        return getCell(column)?.getValue()
     }
 
     fun getIndex(): Int
