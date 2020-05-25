@@ -5,6 +5,21 @@ import org.junit.jupiter.api.Test
 abstract class AbstractTableGetCellTest : AbstractTableTest() {
 
     @Test
+    abstract fun `Get Cell By Column`()
+
+    @Test
+    abstract fun `Get Cell By Column Name`()
+
+    @Test
+    abstract fun `Get Cell Value By Non-Existed Column`()
+
+    @Test
+    abstract fun `Get Cell Value By Non-Existed Column Name`()
+    
+    @Test
+    abstract fun `Get Cell By Column And Non-Existed Row Index`()
+
+    @Test
     abstract fun `Get Cells By Column`()
 
     @Test

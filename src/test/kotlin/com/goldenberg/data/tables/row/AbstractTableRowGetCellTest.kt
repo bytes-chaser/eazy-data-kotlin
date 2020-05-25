@@ -13,6 +13,16 @@ abstract class AbstractTableRowGetCellTest: AbstractRowTest() {
 
     abstract fun `Get Cell By Non-Existed Column Name`()
 
+    abstract fun `Get Cell Value By Column Name`()
+
+    abstract fun `Get Cell Value By Non-Existed Column Name`()
+
+    abstract fun `Get Cell Value By Column`()
+
+    abstract fun `Get Cell Value By Same Name Column From Another Table`()
+
+    abstract fun `Get Cell Value By not added Column`()
+
     abstract fun `Get Cell By Column By Operator`()
 
     abstract fun `Get Cell By not added Column By Operator`()
@@ -36,6 +46,5 @@ abstract class AbstractTableRowGetCellTest: AbstractRowTest() {
     abstract fun `Is Row Contains Non-Existed Cells`()
 
     abstract fun `Is Row Contains Non-Existed And Existed Cells`()
-
 
 }

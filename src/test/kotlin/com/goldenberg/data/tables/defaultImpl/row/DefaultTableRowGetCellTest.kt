@@ -56,6 +56,33 @@ class DefaultTableRowGetCellTest: AbstractTableRowGetCellTest() {
     }
 
     @Test
+    override fun `Get Cell Value By Column Name`() {
+        assertEquals("col1val", this.row.getCellValue(("col1")))
+    }
+
+    @Test
+    override fun `Get Cell Value By Non-Existed Column Name`() {
+        assertNull(this.row.getCellValue("col"))
+    }
+
+    @Test
+    override fun `Get Cell Value By Column`() {
+        assertEquals("col1val", this.row.getCellValue(col1))
+    }
+
+    @Test
+    override fun `Get Cell Value By Same Name Column From Another Table`() {
+        val col = DefaultColumn(tableFactory.createTable("random"), "col1", true)
+        assertEquals("col1val", this.row.getCellValue(col))
+    }
+
+    @Test
+    override fun `Get Cell Value By not added Column`() {
+        val col = DefaultColumn(tableFactory.createTable("random"), "col3", true)
+        assertNull(this.row.getCellValue(col))
+    }
+
+    @Test
     override fun `Get Cell By Column Name`() {
         assertEquals("col1val", this.row.get("col1")!!.getValue())
     }

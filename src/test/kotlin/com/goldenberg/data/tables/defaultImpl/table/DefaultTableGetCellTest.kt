@@ -3,12 +3,15 @@ package com.goldenberg.data.tables.defaultImpl.table
 import com.goldenberg.data.tables.Column
 import com.goldenberg.data.tables.TableFactory
 import com.goldenberg.data.tables.defaultImpl.DefaultCellFilter
+import com.goldenberg.data.tables.defaultImpl.DefaultColumn
+import com.goldenberg.data.tables.defaultImpl.DefaultTable
 import com.goldenberg.data.tables.defaultImpl.DefaultTableFactory
 import com.goldenberg.data.tables.table.AbstractTableGetCellTest
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.assertThrows
 import kotlin.test.assertEquals
+import kotlin.test.assertNull
 import kotlin.test.assertTrue
 
 class DefaultTableGetCellTest: AbstractTableGetCellTest() {
@@ -33,14 +36,36 @@ class DefaultTableGetCellTest: AbstractTableGetCellTest() {
         tableFactory.createCell(table, row1, col, "1")
         tableFactory.createCell(table, row2, col, "2")
         tableFactory.createCell(table, row3, col, "3")
+    }
 
+    @Test
+    override fun `Get Cell By Column`() {
+        assertEquals("2", table.getCell(col, 2)!!.getValue())
+    }
 
+    @Test
+    override fun `Get Cell By Column Name`() {
+        assertEquals("2", table.getCell("col", 2)!!.getValue())
+    }
+
+    @Test
+    override fun `Get Cell Value By Non-Existed Column`() {
+        assertNull(table.getCell(DefaultColumn(DefaultTable("random"), "some"), 2))
+    }
+
+    @Test
+    override fun `Get Cell Value By Non-Existed Column Name`() {
+        assertNull(table.getCell("some", 2))
+    }
+
+    @Test
+    override fun `Get Cell By Column And Non-Existed Row Index`() {
+        assertEquals("default", table.getCell(col, 6)!!.getValue())
     }
 
     @Test
     override fun `Get Cells By Column`() {
         assertEquals(4, table.getCells(col).count())
-
     }
 
     @Test
@@ -112,7 +137,6 @@ class DefaultTableGetCellTest: AbstractTableGetCellTest() {
     override fun `Get Cells Values By Non-Existed Column Name and Indexes`() {
         assertEquals(0, table.getCellsValues("unavailable", 0, 2).count())
     }
-
 
     @Test
     override fun `Get Cells Custom Start Index`() {

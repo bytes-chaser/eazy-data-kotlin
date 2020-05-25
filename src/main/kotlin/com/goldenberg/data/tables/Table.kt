@@ -10,7 +10,7 @@ interface Table: Collection<Row> {
     }
 
     fun getCell(column: String, row: Int): Cell? {
-        return if (isColumnExists(column)) getRow(row).getCell(column) else null
+        return getColumn(column)?.let { getCell(it, row) }
     }
 
     fun getCells(column: Column, startIndex: Int = 0, endIndex: Int = getRowSize() - 1): List<Cell> {
