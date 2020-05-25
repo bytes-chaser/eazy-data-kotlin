@@ -1,5 +1,6 @@
 package com.goldenberg.data.tables.column
 
+
 abstract class AbstractTableColumnGeneralTest: AbstractColumnTest() {
 
     abstract fun `Get Rows Cells`()
@@ -13,6 +14,18 @@ abstract class AbstractTableColumnGeneralTest: AbstractColumnTest() {
     abstract fun `Get Rows Cells Custom Outbound End Index`()
 
     abstract fun `Get Rows Cells Custom Start and End Indexes`()
+
+    abstract fun `Get Rows Cells Value`()
+
+    abstract fun `Get Rows Cells Values Custom Start Index`()
+
+    abstract fun `Get Rows Cells Values Custom Outbound Start Index`()
+
+    abstract fun `Get Rows Cells Values Custom End Index`()
+
+    abstract fun `Get Rows Cells Values Custom Outbound End Index`()
+
+    abstract fun `Get Rows Cells Values Custom Start and End Indexes`()
 
     abstract fun `Get Column Name`()
 

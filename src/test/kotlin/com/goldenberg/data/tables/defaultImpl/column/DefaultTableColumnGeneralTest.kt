@@ -32,7 +32,7 @@ class DefaultTableColumnGeneralTest: AbstractTableColumnGeneralTest() {
 
     @Test
     override fun `Get Rows Cells`() {
-        val rowsCells = col.getRowsCells()!!.map { it.getValue() to it }.toMap()
+        val rowsCells = col.getRowsCells().map { it.getValue() to it }.toMap()
         assertEquals("val0", rowsCells["val0"]?.getValue())
         assertEquals("val1", rowsCells["val1"]?.getValue())
         assertEquals("val2", rowsCells["val2"]?.getValue())
@@ -40,7 +40,7 @@ class DefaultTableColumnGeneralTest: AbstractTableColumnGeneralTest() {
 
     @Test
     override fun `Get Rows Cells Custom Start Index`() {
-        val rowsCells = col.getRowsCells(startIndex = 1)!!.map { it.getValue() to it }.toMap()
+        val rowsCells = col.getRowsCells(startIndex = 1).map { it.getValue() to it }.toMap()
         assertNull(rowsCells["val0"])
         assertEquals("val1", rowsCells["val1"]?.getValue())
         assertEquals("val2", rowsCells["val2"]?.getValue())
@@ -53,7 +53,7 @@ class DefaultTableColumnGeneralTest: AbstractTableColumnGeneralTest() {
 
     @Test
     override fun `Get Rows Cells Custom End Index`() {
-        val rowsCells = col.getRowsCells(endIndex = 1)!!.map { it.getValue() to it }.toMap()
+        val rowsCells = col.getRowsCells(endIndex = 1).map { it.getValue() to it }.toMap()
         assertEquals("val0", rowsCells["val0"]?.getValue())
         assertEquals("val1", rowsCells["val1"]?.getValue())
         assertNull(rowsCells["val2"])
@@ -66,10 +66,53 @@ class DefaultTableColumnGeneralTest: AbstractTableColumnGeneralTest() {
 
     @Test
     override fun `Get Rows Cells Custom Start and End Indexes`() {
-        val rowsCells = col.getRowsCells(startIndex = 1, endIndex = 1)!!.map { it.getValue() to it }.toMap()
+        val rowsCells = col.getRowsCells(startIndex = 1, endIndex = 1).map { it.getValue() to it }.toMap()
         assertNull(rowsCells["val0"])
         assertEquals("val1", rowsCells["val1"]?.getValue())
         assertNull(rowsCells["val2"])
+    }
+
+    @Test
+    override fun `Get Rows Cells Value`() {
+        val rowsCells = col.getRowsCellsValues()
+        assertEquals("val0", rowsCells[0])
+        assertEquals("val1", rowsCells[1])
+        assertEquals("val2", rowsCells[2])
+    }
+
+    @Test
+    override fun `Get Rows Cells Values Custom Start Index`() {
+        val rowsCells = col.getRowsCellsValues(startIndex = 1)
+        assertEquals("val1", rowsCells[0])
+        assertEquals("val2", rowsCells[1])
+        assertThrows<IndexOutOfBoundsException> { rowsCells[2] }
+
+    }
+
+    @Test
+    override fun `Get Rows Cells Values Custom Outbound Start Index`() {
+        assertThrows<IllegalArgumentException> { col.getRowsCellsValues(startIndex = 6) }
+    }
+
+    @Test
+    override fun `Get Rows Cells Values Custom End Index`() {
+        val rowsCells = col.getRowsCellsValues(endIndex = 1)
+        assertEquals("val0", rowsCells[0])
+        assertEquals("val1", rowsCells[1])
+        assertThrows<IndexOutOfBoundsException> { rowsCells[2] }
+    }
+
+    @Test
+    override fun `Get Rows Cells Values Custom Outbound End Index`() {
+        assertThrows<IllegalArgumentException> { col.getRowsCellsValues(endIndex = 6) }
+    }
+
+    @Test
+    override fun `Get Rows Cells Values Custom Start and End Indexes`() {
+        val rowsCells = col.getRowsCellsValues(startIndex = 1, endIndex = 1)
+        assertEquals("val1", rowsCells[0])
+        assertThrows<IndexOutOfBoundsException> { rowsCells[1] }
+        assertThrows<IndexOutOfBoundsException> { rowsCells[2] }
     }
 
     @Test
