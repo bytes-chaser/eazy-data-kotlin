@@ -1,14 +1,15 @@
 package com.goldenberg.data.structure.tree.heap
 
 import com.goldenberg.data.sorting.getHeapPredicate
+import kotlin.math.floor
 
 
-class AbstractHeap<T : Comparable<T>>(heapType: HeapType = HeapType.MIN) : Heap<T> {
+abstract class AbstractHeap<T : Comparable<T>>(heapType: HeapType = HeapType.MIN) : Heap<T> {
 
     private lateinit var comparator: (T, T) -> Boolean
     private lateinit var heapType: HeapType
 
-    val array: MutableList<T>
+    private val array: MutableList<T>
 
     init {
         setHeapType(heapType)
@@ -16,7 +17,7 @@ class AbstractHeap<T : Comparable<T>>(heapType: HeapType = HeapType.MIN) : Heap<
     }
 
 
-    fun setHeapType(heapType: HeapType) {
+    private fun setHeapType(heapType: HeapType) {
         this.heapType = heapType
         this.comparator = getHeapPredicate(heapType)
     }
@@ -48,16 +49,12 @@ class AbstractHeap<T : Comparable<T>>(heapType: HeapType = HeapType.MIN) : Heap<
 
     private fun fixHeapDown() {
         var index = 0
-        val left = getLeft(index)
-        while (left != null) {
+        while (hasLeft(index)) {
             var childIndex = getLeftIndex(index)
-            val right = getRight(index)
-            if (right != null && comparator.invoke(right, left)) childIndex = getRightIndex(index)
+            if (hasRight(index) && comparator.invoke(getLeft(index), getRight(index))) childIndex = getRightIndex(index)
 
-            if (comparator.invoke(array[index], array[childIndex]))
-                break
-            else
-                swap(index, childIndex)
+            if (comparator.invoke(array[childIndex], array[index])) break
+            else swap(index, childIndex)
 
             index = childIndex
         }
@@ -69,13 +66,19 @@ class AbstractHeap<T : Comparable<T>>(heapType: HeapType = HeapType.MIN) : Heap<
 
     private fun getRightIndex(index: Int): Int = layerUpIndex(index) + 2
 
-    private fun getParentIndex(index: Int): Int = (index - 1) / 2
+    private fun getParentIndex(index: Int): Int {
+        val i1: Float = (index - 1) / 2F
+        val i = floor(i1.toDouble())
+        return i.toInt()
+    }
 
     private fun hasParentElement(index: Int): Boolean = getParentIndex(index) >= 0
 
-    private fun getLeft(index: Int): T? = array[getLeftIndex(index)]
+    private fun getLeft(index: Int): T = array[getLeftIndex(index)]
+    private fun hasLeft(index: Int): Boolean = getLeftIndex(index) < array.size
+    private fun getRight(index: Int): T = array[getRightIndex(index)]
+    private fun hasRight(index: Int): Boolean = getRightIndex(index) < array.size
 
-    private fun getRight(index: Int): T? = array[getRightIndex(index)]
 
     private fun getParent(index: Int): T? = array[getParentIndex(index)]
 
@@ -88,8 +91,13 @@ class AbstractHeap<T : Comparable<T>>(heapType: HeapType = HeapType.MIN) : Heap<
     override fun poll(): T {
         require(isNotEmpty()) { "Unable to poll element from empty heap" }
         val r = array[0]
-        array[0] = array[array.size - 1]
-        fixHeapDown()
+        if (hasRight(0) && hasLeft(0)) {
+            val lastIndex = array.size - 1
+            array[0] = array[lastIndex]
+            array.removeAt(lastIndex)
+            fixHeapDown()
+        } else array.removeAt(0)
+
         return r
     }
 

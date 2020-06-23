@@ -4,20 +4,28 @@ import com.goldenberg.data.enums.Order
 import com.goldenberg.data.structure.tree.heap.HeapType
 
 
-fun <T: Comparable<T>> createAscComparingPredicate(): (T, T) -> Boolean {
-    return {value1: T, value2: T -> value1 > value2 }
+fun <T : Comparable<T>> createBiggerThenPredicate(): (T, T) -> Boolean {
+    return { value1: T, value2: T -> value1 > value2 }
 }
 
-fun <T : Comparable<T>> createDescComparingPredicate(): (T, T) -> Boolean {
+fun <T : Comparable<T>> createSmallerThenPredicate(): (T, T) -> Boolean {
     return { value1: T, value2: T -> value1 < value2 }
 }
 
+fun <T : Comparable<T>> createBiggerThenOrEqualPredicate(): (T, T) -> Boolean {
+    return { value1: T, value2: T -> value1 >= value2 }
+}
+
+fun <T : Comparable<T>> createSmallerThenOrEqualPredicate(): (T, T) -> Boolean {
+    return { value1: T, value2: T -> value1 <= value2 }
+}
+
 fun <T : Comparable<T>> getSortingAlgorithmPredicate(order: Order): (T, T) -> Boolean = when (order) {
-    Order.ASC -> createAscComparingPredicate()
-    Order.DESC -> createDescComparingPredicate()
+    Order.ASC -> createBiggerThenPredicate()
+    Order.DESC -> createSmallerThenPredicate()
 }
 
 fun <T : Comparable<T>> getHeapPredicate(heapType: HeapType): (T, T) -> Boolean = when (heapType) {
-    HeapType.MAX -> createAscComparingPredicate()
-    HeapType.MIN -> createDescComparingPredicate()
+    HeapType.MIN -> createBiggerThenOrEqualPredicate()
+    HeapType.MAX -> createSmallerThenOrEqualPredicate()
 }
