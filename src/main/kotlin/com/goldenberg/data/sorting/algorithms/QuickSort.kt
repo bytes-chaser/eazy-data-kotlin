@@ -7,26 +7,21 @@ class QuickSort: Sorting {
 
     override fun <T : Comparable<T>> sort(values: MutableList<T>, order: Order): MutableList<T> {
         if (values.isEmpty()) return values
-        return sort(values, order, 0, values.size -1)
+        val predicate = getSortingAlgorithmPredicate<T>(order)
+        return sort(values, predicate, 0, values.size - 1)
     }
 
-    fun <T : Comparable<T>> sort(values: MutableList<T>, order: Order, start: Int, end: Int): MutableList<T> {
+    private fun <T : Comparable<T>> sort(values: MutableList<T>, predicate: (T, T) -> Boolean, start: Int, end: Int): MutableList<T> {
         if (start >= end) return values
 
-        val predicate = getSortingAlgorithmPredicate<T>(order)
         val baseIndex = (start + end) / 2
         val base = values[baseIndex]
         var leftPointer = start
         var rightPointer = end
 
         while (rightPointer >= leftPointer) {
-            while (predicate(base, values[leftPointer])) {
-                leftPointer++
-            }
-
-            while (predicate(values[rightPointer], base)) {
-                rightPointer--
-            }
+            while (predicate(base, values[leftPointer])) leftPointer++
+            while (predicate(values[rightPointer], base)) rightPointer--
 
             if (rightPointer >= leftPointer) {
                 val tmp = values[leftPointer]
@@ -37,8 +32,8 @@ class QuickSort: Sorting {
             }
         }
 
-        sort(values, order, start, leftPointer -1)
-        sort(values, order, leftPointer, end)
+        sort(values, predicate, start, leftPointer - 1)
+        sort(values, predicate, leftPointer, end)
 
         return values
     }
