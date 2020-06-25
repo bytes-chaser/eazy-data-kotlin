@@ -24,9 +24,7 @@ class QuickSort: Sorting {
             while (predicate(values[rightPointer], base)) rightPointer--
 
             if (rightPointer >= leftPointer) {
-                val tmp = values[leftPointer]
-                values[leftPointer] = values[rightPointer]
-                values[rightPointer] = tmp
+                swap(values, leftPointer, rightPointer)
                 leftPointer++
                 rightPointer--
             }

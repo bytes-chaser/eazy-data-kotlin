@@ -17,10 +17,7 @@ class SelectionSort: Sorting {
                     min = values[index2]
                     minIndex = index2 }
             }
-
-            val tmp = values[index1]
-            values[index1] = min
-            values[minIndex] = tmp
+            swap(values, index1, minIndex)
         }
         return values
     }
