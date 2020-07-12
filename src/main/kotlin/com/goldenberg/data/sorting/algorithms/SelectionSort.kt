@@ -15,7 +15,8 @@ class SelectionSort: Sorting {
             for (index2 in index1 + 1 until values.size) {
                 if (predicate.invoke(min, values[index2])) {
                     min = values[index2]
-                    minIndex = index2 }
+                    minIndex = index2
+                }
             }
             swap(values, index1, minIndex)
         }

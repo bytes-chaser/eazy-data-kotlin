@@ -12,11 +12,10 @@ class MergeSort : Sorting {
             swap(values, 0, 1)
         else if (values.size > 2) {
             val splitIndex = values.size / 2
-            return merge(
-                sort(values.subList(splitIndex, values.size), order),
-                sort(values.subList(0, splitIndex), order),
-                predicate
-            )
+            val list1 = sort(values.subList(splitIndex, values.size), order)
+            val list2 = sort(values.subList(0, splitIndex), order)
+            
+            return merge(list1, list2, predicate)
         }
         return values
     }

@@ -8,6 +8,7 @@ class QuickSort: Sorting {
     override fun <T : Comparable<T>> sort(values: MutableList<T>, order: Order): MutableList<T> {
         if (values.isEmpty()) return values
         val predicate = getSortingAlgorithmPredicate<T>(order)
+
         return sort(values, predicate, 0, values.size - 1)
     }
 

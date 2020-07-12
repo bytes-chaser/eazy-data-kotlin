@@ -14,8 +14,10 @@ class HeapSort : Sorting {
         }
 
         val heap = HeapImpl<T>(heapType)
+
         while (values.isNotEmpty()) heap.add(values.removeAt(0))
         while (heap.isNotEmpty()) values.add(heap.poll())
+
         return values
     }
 }
