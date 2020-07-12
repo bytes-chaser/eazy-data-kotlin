@@ -1,41 +1,53 @@
 package com.goldenberg.data.sorting.algorithms
 
 import com.goldenberg.data.enums.Order
-import com.goldenberg.data.sorting.getSortingAlgorithmPredicate
-import kotlin.math.abs
-import kotlin.math.min
+import com.goldenberg.data.sorting.getSortingAlgorithmPredicateWithEquality
 
 class MergeSort : Sorting {
 
     override fun <T : Comparable<T>> sort(values: MutableList<T>, order: Order): MutableList<T> {
-        val predicate = getSortingAlgorithmPredicate<T>(order)
+        val predicate = getSortingAlgorithmPredicateWithEquality<T>(order)
+
         if (values.size == 2 && predicate.invoke(values[0], values[1]))
             swap(values, 0, 1)
         else if (values.size > 2) {
             val splitIndex = values.size / 2
-            return merge(sort(values.subList(splitIndex, values.size), order), sort(values.subList(0, splitIndex), order), predicate)
+            return merge(
+                sort(values.subList(splitIndex, values.size), order),
+                sort(values.subList(0, splitIndex), order),
+                predicate
+            )
         }
         return values
     }
 
+
     private fun <T : Comparable<T>> merge(values1: MutableList<T>, values2: MutableList<T>, predicate: (T, T) -> Boolean): MutableList<T> {
         val mergedList = mutableListOf<T>()
-        val diff = abs(values1.size - values2.size)
-        val min = min(values1.size, values2.size)
-        var i = 0
-        while (i < min) {
-            var value1 = values1[i]
-            var value2 = values2[i]
-            if (predicate.invoke(value1, value2)) {
-                value1 = values2[i]
-                value2 = values1[i]
+
+        var i0 = 0
+        var i1 = 0
+
+        while (i0 < values1.size && i1 < values2.size) {
+            if (predicate.invoke(values2[i1], values1[i0])) {
+                mergedList.add(values1[i0])
+                i0++
+            } else {
+                mergedList.add(values2[i1])
+                i1++
             }
-            mergedList.add(2 * i, value1)
-            mergedList.add(2 * i + 1, value2)
-            i++
         }
-        val values3 = if (diff > 0) values1 else values2
-        mergedList.addAll(values3.subList(values3.size - diff, values3.size))
+
+        while (i0 < values1.size) {
+            mergedList.add(values1[i0])
+            i0++
+        }
+
+        while (i1 < values2.size) {
+            mergedList.add(values2[i1])
+            i1++
+        }
+
         return mergedList
     }
 }

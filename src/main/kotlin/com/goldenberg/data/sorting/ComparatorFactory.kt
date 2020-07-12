@@ -25,6 +25,11 @@ fun <T : Comparable<T>> getSortingAlgorithmPredicate(order: Order): (T, T) -> Bo
     Order.DESC -> createSmallerThenPredicate()
 }
 
+fun <T : Comparable<T>> getSortingAlgorithmPredicateWithEquality(order: Order): (T, T) -> Boolean = when (order) {
+    Order.ASC -> createBiggerThenOrEqualPredicate()
+    Order.DESC -> createSmallerThenOrEqualPredicate()
+}
+
 fun <T : Comparable<T>> getHeapPredicate(heapType: HeapType): (T, T) -> Boolean = when (heapType) {
     HeapType.MIN -> createBiggerThenOrEqualPredicate()
     HeapType.MAX -> createSmallerThenOrEqualPredicate()
