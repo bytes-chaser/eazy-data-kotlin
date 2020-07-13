@@ -10,7 +10,7 @@ import kotlin.test.assertTrue
 abstract class AbstractSortingTest {
 
     private lateinit var sorting: Sorting
-    private val numbersOfInputs = 10000
+    private val numbersOfInputs = 5000
 
     @BeforeEach
     fun setSortingAlgorithm() {
@@ -19,6 +19,11 @@ abstract class AbstractSortingTest {
 
     abstract fun initAlgorithm(): Sorting
 
+
+    @Test
+    fun `Test Sorting No Order`() {
+        checkSorting()
+    }
 
     @Test
     fun `Test Sorting ASC`() {
@@ -34,11 +39,23 @@ abstract class AbstractSortingTest {
         analyzeSorting(runSorting(order), getSortingAlgorithmPredicate(order))
     }
 
+    private fun checkSorting() {
+        analyzeSorting(runSorting(), getSortingAlgorithmPredicate(Order.ASC))
+    }
+
     private fun runSorting(order: Order): List<Int> {
         val startTime = System.currentTimeMillis()
         val list = this.sorting.sort(createRandomIntList(), order)
         val endTime = System.currentTimeMillis()
         displayExecutionTime(endTime - startTime, order)
+        return list
+    }
+
+    private fun runSorting(): List<Int> {
+        val startTime = System.currentTimeMillis()
+        val list = this.sorting.sort(createRandomIntList())
+        val endTime = System.currentTimeMillis()
+        displayExecutionTime(endTime - startTime, Order.ASC)
         return list
     }
 
@@ -61,6 +78,7 @@ abstract class AbstractSortingTest {
             )
         )
     }
+
 
     private fun analyzeSorting(list: List<Int>, predicate: (Int, Int) -> Boolean) {
         for (i in 1 until list.size) {
