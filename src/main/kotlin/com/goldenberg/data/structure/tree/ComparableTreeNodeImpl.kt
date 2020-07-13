@@ -1,4 +1,17 @@
 package com.goldenberg.data.structure.tree
 
-class ComparableTreeNodeImpl<T : Comparable<T>, N : ComparableTreeNodeImpl<T, N>>(override var parent: N?, override var left: N?, override var right: N?, override var value: T)
-    : ComparableTreeNode<T, N>
+class ComparableTreeNodeImpl<C : Comparable<C>, T>(private val key: C, value: T?)
+    : AbstractTreeNode<T, ComparableTreeNodeImpl<C, T>>(value), ComparableTreeNode<C, T> {
+    override fun compareTo(value: C): Int {
+        return this.key.compareTo(value)
+    }
+
+    constructor(parent: ComparableTreeNodeImpl<C, T>, key: C, value: T?) : this(key, value) {
+        this.parent = parent
+    }
+
+    constructor(parent: ComparableTreeNodeImpl<C, T>, left: ComparableTreeNodeImpl<C, T>, right: ComparableTreeNodeImpl<C, T>, key: C, value: T?) : this(parent, key, value) {
+        this.left = left
+        this.right = right
+    }
+}

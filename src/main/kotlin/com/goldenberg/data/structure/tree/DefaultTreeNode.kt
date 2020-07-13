@@ -1,4 +1,3 @@
 package com.goldenberg.data.structure.tree
 
-class DefaultTreeNode<T, N : DefaultTreeNode<T, N>>(value: T, parent: N? = null, left: N? = null, right: N? = null)
-    : AbstractTreeNode<T, N>(value, parent, left, right)
+class DefaultTreeNode<T>(parent: DefaultTreeNode<T>, left: DefaultTreeNode<T>, right: DefaultTreeNode<T>, value: T?) : AbstractTreeNode<T, DefaultTreeNode<T>>(parent, left, right, value)

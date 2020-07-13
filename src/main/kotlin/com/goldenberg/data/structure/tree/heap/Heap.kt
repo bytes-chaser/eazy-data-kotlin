@@ -1,8 +1,7 @@
 package com.goldenberg.data.structure.tree.heap
 
-import com.goldenberg.data.structure.tree.Tree
 
-interface Heap<T : Comparable<T>> : Tree<T> {
+interface Heap<T : Comparable<T>> {
 
     fun add(element: T): Boolean
     fun addAll(elements: Collection<T>): Boolean
