@@ -1,9 +1,10 @@
 package com.goldenberg.data.sorting.algorithms
 
 import com.goldenberg.data.enums.Order
+import com.goldenberg.data.sorting.Sorting
 import com.goldenberg.data.sorting.getSortingAlgorithmPredicate
 
-class QuickSort: Sorting {
+internal class QuickSort : Sorting {
 
     override fun <T : Comparable<T>> sort(values: MutableList<T>, order: Order): MutableList<T> {
         if (values.isEmpty()) return values

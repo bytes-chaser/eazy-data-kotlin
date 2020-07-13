@@ -1,7 +1,6 @@
 package com.goldenberg.data.sorting
 
 import com.goldenberg.data.enums.Order
-import com.goldenberg.data.sorting.algorithms.Sorting
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import kotlin.random.Random
@@ -17,8 +16,7 @@ abstract class AbstractSortingTest {
         this.sorting = initAlgorithm()
     }
 
-    abstract fun initAlgorithm(): Sorting
-
+    internal abstract fun initAlgorithm(): Sorting
 
     @Test
     fun `Test Sorting No Order`() {

@@ -1,4 +1,4 @@
-package com.goldenberg.data.sorting.algorithms
+package com.goldenberg.data.sorting
 
 import com.goldenberg.data.enums.Order
 

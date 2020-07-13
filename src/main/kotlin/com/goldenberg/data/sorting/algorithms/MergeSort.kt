@@ -1,9 +1,10 @@
 package com.goldenberg.data.sorting.algorithms
 
 import com.goldenberg.data.enums.Order
+import com.goldenberg.data.sorting.Sorting
 import com.goldenberg.data.sorting.getSortingAlgorithmPredicateWithEquality
 
-class MergeSort : Sorting {
+internal class MergeSort : Sorting {
 
     override fun <T : Comparable<T>> sort(values: MutableList<T>, order: Order): MutableList<T> {
         val predicate = getSortingAlgorithmPredicateWithEquality<T>(order)

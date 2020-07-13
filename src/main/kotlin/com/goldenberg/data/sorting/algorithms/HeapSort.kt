@@ -1,10 +1,11 @@
 package com.goldenberg.data.sorting.algorithms
 
 import com.goldenberg.data.enums.Order
+import com.goldenberg.data.sorting.Sorting
 import com.goldenberg.data.structure.tree.heap.HeapImpl
 import com.goldenberg.data.structure.tree.heap.HeapType
 
-class HeapSort : Sorting {
+internal class HeapSort : Sorting {
 
     override fun <T : Comparable<T>> sort(values: MutableList<T>, order: Order): MutableList<T> {
 
