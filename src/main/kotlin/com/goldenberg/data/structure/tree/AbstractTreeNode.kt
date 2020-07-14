@@ -26,15 +26,22 @@ abstract class AbstractTreeNode<T, N : TreeNode<T>>(var value: T?) : TreeNode<T>
 
     override fun isNotLeaf(): Boolean = !isLeaf()
 
-    fun setParentNode(node: N) {
+    fun setParentNode(node: N?) {
         this.parent = node
     }
 
-    fun setLeftNode(node: N) {
+    fun setLeftNode(node: N?) {
         this.left = node
     }
 
-    fun setRightNode(node: N) {
+    fun setRightNode(node: N?) {
         this.right = node
+    }
+
+    fun setChildNode(node: N?, isLeft: Boolean) {
+        if (isLeft)
+            setLeftNode(node)
+        else
+            setRightNode(node)
     }
 }

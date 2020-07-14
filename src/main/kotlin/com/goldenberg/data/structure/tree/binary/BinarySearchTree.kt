@@ -8,12 +8,7 @@ class BinarySearchTree<C : Comparable<C>, T> : SearchTree<C, T> {
     var top: ComparableTreeNodeImpl<C, T>? = null
 
     override fun find(key: C): T? {
-        return find(key, top)
-    }
-
-
-    private fun find(key: C, node: ComparableTreeNodeImpl<C, T>? = top): T? {
-        return findNode(key, node)?.value
+        return findNode(key, top)?.value
     }
 
 
@@ -35,9 +30,9 @@ class BinarySearchTree<C : Comparable<C>, T> : SearchTree<C, T> {
     }
 
 
-    private fun insert(key: C, value: T, node: ComparableTreeNodeImpl<C, T>? = top) {
+    override fun insert(key: C, value: T) {
         var parent: ComparableTreeNodeImpl<C, T>? = null
-        var current: ComparableTreeNodeImpl<C, T>? = node
+        var current: ComparableTreeNodeImpl<C, T>? = top
 
         if (current == null) {
             top = ComparableTreeNodeImpl(key, value)
@@ -48,64 +43,76 @@ class BinarySearchTree<C : Comparable<C>, T> : SearchTree<C, T> {
 
         while (current != null) {
             val compareValue = current.compareTo(key)
-            if (compareValue == 0) {
-                current.value = value
-                return
-            }
 
             parent = current
-
-            if (compareValue > 0) {
-                isLeft = true
-                current = current.left
-            } else {
-                isLeft = false
-                current = current.right
+            when {
+                compareValue > 0 -> {
+                    isLeft = true
+                    current = current.left
+                }
+                compareValue < 0 -> {
+                    isLeft = false
+                    current = current.right
+                }
+                else -> {
+                    current.value = value
+                    return
+                }
             }
         }
 
         val newNode = ComparableTreeNodeImpl(parent!!, key, value)
+        parent.setChildNode(newNode, isLeft)
+    }
 
-        if (isLeft)
-            parent.left = newNode
-        else
-            parent.right = newNode
+
+    override fun remove(key: C): T? {
+        return removeNode(key)?.value
     }
 
 
     private fun removeNode(key: C): ComparableTreeNodeImpl<C, T>? {
 
         val current = findNode(key, top) ?: return null
-        val parent = current.parent
-        val hasParent = current.parent != null
-        val replaceNode: ComparableTreeNodeImpl<C, T>?
-        var isLeft = false
 
-        if (hasParent) isLeft = current.parent!!.compareTo(key) > 0
-
-        when {
-            current.right != null -> {
-                replaceNode = minNode(current.right!!)
-                replaceNode.left = current.left
-                if (replaceNode != current.right) replaceNode.right = current.right
-            }
-            current.left != null -> {
-                val leftRight = current.left!!.right
-                replaceNode = if (leftRight == null) current.left else minNode(leftRight)
-                replaceNode!!.right = null
-            }
-            else -> replaceNode = null
+        val replaceNode = when {
+            current.right != null -> getRightReplacement(current)
+            current.left != null -> getLeftReplacement(current)
+            else -> null
         }
 
-        if (hasParent) {
-            replaceNode?.parent = parent
-            if (isLeft)
-                parent!!.left = replaceNode
-            else
-                parent!!.right = replaceNode
-        } else top = replaceNode
+        changeParentNode(current, replaceNode)
 
         return current
+    }
+
+
+    private fun getRightReplacement(current: ComparableTreeNodeImpl<C, T>): ComparableTreeNodeImpl<C, T> {
+        val replaceNode = minNode(current.right!!)
+        replaceNode.left = current.left
+        if (replaceNode != current.right) replaceNode.right = current.right
+        return replaceNode
+    }
+
+
+    private fun getLeftReplacement(current: ComparableTreeNodeImpl<C, T>): ComparableTreeNodeImpl<C, T> {
+        val leftRight = current.left!!.right
+        val replaceNode = if (leftRight == null) current.left else minNode(leftRight)
+        replaceNode!!.right = null
+        return replaceNode
+    }
+
+
+    private fun changeParentNode(current: ComparableTreeNodeImpl<C, T>, replaceNode: ComparableTreeNodeImpl<C, T>?) {
+        val parent = current.parent
+        val isLeft: Boolean
+
+        if (current.parent != null) {
+            isLeft = current.parent!!.compareTo(current.key) > 0
+            replaceNode?.parent = parent
+            parent!!.setChildNode(replaceNode, isLeft)
+        } else
+            top = replaceNode
     }
 
 
@@ -120,13 +127,7 @@ class BinarySearchTree<C : Comparable<C>, T> : SearchTree<C, T> {
     }
 
 
-    override fun insert(key: C, value: T) {
-        insert(key, value, top)
-    }
 
 
-    override fun remove(key: C) {
-        removeNode(key)
-    }
 
 }
